@@ -24,8 +24,10 @@ namespace vhtest
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            string strComputerKey = "";
+            ut.GetComputerKey(ref strComputerKey);
+            tci.Text = strComputerKey;
             esegui();
-            return;
         }
         private void rh_CheckedChanged(object sender, EventArgs e)
         {
@@ -43,22 +45,20 @@ namespace vhtest
         }
         private void esegui()
         {
-            if (re.Checked)
+            if (rp.Checked)
+                lic = 0x14;
+            else if (re.Checked)
                 lic = 0xF;
             else if (rh.Checked)
                 lic = 0xA;
-            else lic = 0x14;
-            string strComputerKey = "";
-            ut.GetComputerKey(ref strComputerKey);
-            tci.Text = strComputerKey;
             if (!c106.Checked)
             {
-                tSerial.Text = oa.Generate(lic, strComputerKey);
+                tSerial.Text = oa.Generate(lic, tci.Text);
             }
             else
             {
                 //TODo New Algo for v1.06 >
-                tSerial.Text = na.Generate(lic, strComputerKey);
+                tSerial.Text = na.Generate(lic, tci.Text);
                 MessageBox.Show("In Todo...");
             }
         }
